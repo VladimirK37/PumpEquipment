@@ -7,7 +7,7 @@ import { Pump, PumpRequest} from '../Dto/pump';
   providedIn: 'root'
 })
 export class PumpService {
-  private apiUrl = 'https://localhost:7005/nasos';
+  private apiUrl = 'https://localhost:****/pump';
 
   constructor(private http: HttpClient) { }
 

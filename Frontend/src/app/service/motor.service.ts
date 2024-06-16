@@ -7,7 +7,7 @@ import { Motor, MotorRequest } from '../Dto/motor';
   providedIn: 'root'
 })
 export class MotorService {
-  private apiUrl = 'https://localhost:7005/motor';
+  private apiUrl = 'https://localhost:****/motor';
 
   constructor(private http: HttpClient) { }
 

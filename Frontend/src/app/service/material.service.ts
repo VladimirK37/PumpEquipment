@@ -7,7 +7,7 @@ import { Material, MaterialRequest } from '../Dto/material';
   providedIn: 'root'
 })
 export class MaterialService {
-  private apiUrl = 'https://localhost:7005/material';
+  private apiUrl = 'https://localhost:****/material';
 
   constructor(private http: HttpClient) { }
 
