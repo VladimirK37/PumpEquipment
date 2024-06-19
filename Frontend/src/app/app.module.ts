@@ -13,6 +13,9 @@ import { AddMotorComponent } from './Component/add-motor/add-motor.component';
 import { MotorComponent } from './Component/motor/motor.component';
 import { MaterialComponent } from './Component/material/material.component';
 import { AddMaterialComponent } from './Component/add-material/add-material.component';
+import { EditPumpComponent } from './Component/edit-pump/edit-pump.component';
+import { EditMotorComponent } from './Component/edit-motor/edit-motor.component';
+import { EditMaterialComponent } from './Component/edit-material/edit-material.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +26,10 @@ import { AddMaterialComponent } from './Component/add-material/add-material.comp
     AddMotorComponent,
     MotorComponent,
     MaterialComponent,
-    AddMaterialComponent
+    AddMaterialComponent,
+    EditPumpComponent,
+    EditMotorComponent,
+    EditMaterialComponent
   ],
   imports: [
     BrowserModule,

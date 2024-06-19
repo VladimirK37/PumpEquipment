@@ -8,7 +8,7 @@ public class MotorDto
     /// <summary>
     /// Идентификатор мотора
     /// </summary>
-    public Guid Guid { get; set; }
+    public Guid Id { get; set; }
     /// <summary>
     /// Наименование мотора
     /// </summary>

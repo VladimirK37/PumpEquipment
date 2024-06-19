@@ -29,10 +29,10 @@ namespace Pump_equipment.Services
         {
             var query = _materilRepositories.GetAllMaterials().Select(x => new MaterialDto
             {
-                Guid = x.Id,
+                Id = x.Id,
                 Name = x.Name,
                 Description = x.Description,
-            });
+            }).OrderBy(x => x.Id);
             var result = await query.ToListAsync();
 
             return result;
@@ -46,7 +46,6 @@ namespace Pump_equipment.Services
         {
             var materialEntity = new MaterialEntity
             {
-                Id = Guid.NewGuid(),
                 Name = materialDto.Name,
                 Description = materialDto.Description,
             };
@@ -63,7 +62,7 @@ namespace Pump_equipment.Services
         {
             var materialEntity = new MaterialEntity
             {
-                Id = materialDto.Guid,
+                Id = materialDto.Id,
                 Name = materialDto.Name,
                 Description = materialDto.Description,
             };
@@ -81,10 +80,26 @@ namespace Pump_equipment.Services
         public async Task DeleteMaterialAsync(Guid id)
         {
             var motor = _db.Materials.Find(id) ??
-                throw new DataException($"Отсутвует материал по этому идентификатору {id}");
+                throw new DataException($"Отсутвует материал по этому идентификатору {id} при удалении");
 
             _materilRepositories.DeleteMaterial(motor);
             await _db.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// Получение материала по идентификатору
+        /// </summary>
+        public async Task<MaterialDto> GetMaterialAsync(Guid id)
+        {
+            var materialEntity = await _db.Materials.FindAsync(id) ??
+                 throw new DataException($"Отсутвует материал по этому идентификатору {id} при получении");
+            var materialDto = new MaterialDto
+            {
+                Id = materialEntity.Id,
+                Name = materialEntity.Name,
+                Description = materialEntity.Description
+            };
+            return materialDto;
         }
     }
 }

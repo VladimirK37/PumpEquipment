@@ -15,6 +15,10 @@ namespace Pump_equipment.Controllers
             _materialService = materialService;
         }
 
+        /// <summary>
+        /// Получение всех материалов
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MaterialDto>>> GetAllMaterialsAsync()
         {
@@ -22,26 +26,52 @@ namespace Pump_equipment.Controllers
             return Ok(dto);
         }
 
+        /// <summary>
+        /// Создание материала
+        /// </summary>
+        /// <param name="materialDto"></param>
+        /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult> CreateMaterial(MaterialDto material)
+        public async Task<ActionResult> CreateMaterialAsync(MaterialDto materialDto)
         {
-            await _materialService.CreateMaterialAsync(material);
+            await _materialService.CreateMaterialAsync(materialDto);
             return Ok();
         }
 
+        /// <summary>
+        /// Обновление материала
+        /// </summary>
+        /// <param name="materialDto"></param>
+        /// <returns></returns>
         [HttpPut]
-        public async Task<MaterialDto> UpdateMotor(MaterialDto materialDto)
+        public async Task<MaterialDto> UpdateMotorAsync(MaterialDto materialDto)
         {
-            await _materialService.UpdateMaterialAsync(materialDto);
-            return materialDto;
+            var material = await _materialService.UpdateMaterialAsync(materialDto);
+            return material;
         }
 
+        /// <summary>
+        /// Удаление материала по идентификатору
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteMaterial(Guid id)
+        public async Task<ActionResult> DeleteMaterialAsync(Guid id)
         {
             await _materialService.DeleteMaterialAsync(id);
             return NoContent();
         }
 
+        /// <summary>
+        /// Получение материала по идентификатору
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        public async Task<ActionResult<MaterialDto>> GetMaterialAsync(Guid id)
+        {
+            var dto = await _materialService.GetMaterialAsync(id);
+            return Ok(dto);
+        }
     }
 }

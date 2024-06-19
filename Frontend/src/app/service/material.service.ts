@@ -7,12 +7,16 @@ import { Material, MaterialRequest } from '../Dto/material';
   providedIn: 'root'
 })
 export class MaterialService {
-  private apiUrl = 'https://localhost:****/material';
+  private apiUrl = 'https://localhost:7220/material';
 
   constructor(private http: HttpClient) { }
 
   getMaterials() {
     return this.http.get<Material[]>(this.apiUrl);
+  }
+
+  getMaterial(id: string): Observable<Material> {
+    return this.http.get<Material>(`${this.apiUrl}/${id}`);
   }
 
   addMaterial(material: MaterialRequest): Observable<void> {

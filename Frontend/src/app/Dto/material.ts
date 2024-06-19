@@ -1,5 +1,5 @@
 export interface Material {
-  guid: string;
+  id: string;
   name: string;
   description: string;
 }

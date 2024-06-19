@@ -7,7 +7,6 @@ export interface Pump {
   maxPressure: number;
   temperature: number;
   weight: number;
-  // motorId: number;
   motorEntity: Motor;
   impellerMaterial: Material;
   materialHull: Material;
@@ -27,4 +26,16 @@ export interface PumpRequest {
   price: number;
   impellerMaterialId: string | null;
   materialHullId: string | null;
+}
+
+export interface PumpResponse {
+  id: string;
+  name: string;
+  maxPressure: number;
+  temperature: number;
+  weight: number;
+  motorEntity: Motor;
+  description: string;
+  picture: string;
+  price: number;
 }

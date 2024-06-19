@@ -15,6 +15,9 @@ namespace Pump_equipment.Controllers
             _motorService = motorService;
         }
 
+        /// <summary>
+        /// Получение всех моторов
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MotorDto>>> GetAllMotorAsync()
         {
@@ -22,6 +25,10 @@ namespace Pump_equipment.Controllers
             return Ok(dto);
         }
 
+        /// <summary>
+        /// Создание мотора
+        /// </summary>
+        /// <param name="motor"></param>
         [HttpPost]
         public async Task<ActionResult> CreateMotorAsync(MotorDto motor)
         {
@@ -29,6 +36,10 @@ namespace Pump_equipment.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Обновление мотора
+        /// </summary>
+        /// <param name="motorDto"></param>
         [HttpPut]
         public async Task<MotorDto> UpdateMotorAsync(MotorDto motorDto)
         {
@@ -36,11 +47,26 @@ namespace Pump_equipment.Controllers
             return motorDto;
         }
 
+        /// <summary>
+        /// Удаление мотора по идентификатору
+        /// </summary>
+        /// <param name="id"></param>
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteMotorAsync(Guid id)
         {
             await _motorService.DeleteMotorAsync(id);
             return NoContent();
+        }
+
+        /// <summary>
+        /// Получение мотора по идентификатору
+        /// </summary>
+        /// <param name="id"></param>
+        [HttpGet("{id}")]
+        public async Task<ActionResult<MotorDto>> GetMotorAsync(Guid id)
+        {
+            var dto = await _motorService.GetMotorAsync(id);
+            return Ok(dto);
         }
     }
 }

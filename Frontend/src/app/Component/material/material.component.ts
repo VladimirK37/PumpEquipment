@@ -9,13 +9,7 @@ import { Material } from 'src/app/Dto/material';
   styleUrls: ['./material.component.css']
 })
 export class MaterialComponent implements OnInit{
-  public isShowMaterial = true;
   materials: Material[] = [];
-  materialEdit: Material = {
-    guid:'',
-    name:'',
-    description: '',
-  };
 
   constructor(private materialservice: MaterialService){
 
@@ -25,34 +19,18 @@ export class MaterialComponent implements OnInit{
       next: data => {
         this.materials = data;
       },
-      error: err => {console.log(err)}
+      error: err => {}
     });
-  }
-
-  setUpdate(material: Material){
-    this.isShowMaterial = false;
-    this.materialEdit = structuredClone(material);
-  }
-
-  setEdit(material: Material){
-    this.isShowMaterial = true;
-    this.materialservice.updateMaterial(material).subscribe({
-      error: err => {console.log(err)}
-    });
-  }
-
-  setFlag(){
-    this.isShowMaterial = true;
   }
 
   setDelete(material: Material){
-    const index = this.materials.findIndex((m) => m.guid === material.guid);
+    const index = this.materials.findIndex((m) => m.id === material.id);
 
     if (index !== -1) {
       this.materials.splice(index, 1);
     }
-    this.materialservice.deleteMaterial(material.guid).subscribe({
-      error: err => {console.log(err)}
+    this.materialservice.deleteMaterial(material.id).subscribe({
+      error: err => {}
     });
-  }
+  };
 }

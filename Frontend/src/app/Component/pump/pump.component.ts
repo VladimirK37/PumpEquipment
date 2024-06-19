@@ -16,11 +16,6 @@ export class PumpComponent implements OnInit{
   pumps: Pump[] = [];
   motors: Motor[] = [];
   materials: Material[] = [];
-  pump: Pump | undefined;
-  id: string = '';
-  public isShowPump = true;
-  selectedFile: File | null = null;
-  selectedFileBase64: any;
 
   constructor(private pumpservice: PumpService, private motorservice: MotorService, private materialservice: MaterialService){
 
@@ -30,44 +25,25 @@ export class PumpComponent implements OnInit{
     this.pumpservice.getPumps().subscribe({
       next: data => {
         this.pumps = data
-        console.log(data);
+        console.log(this.pumps)
       },
-      error: err => {console.log(err)}
+      error: err => {}
     });
 
     this.motorservice.getMotors().subscribe({
       next: data => {
         this.motors = data;
+        console.log(this.motors)
       },
-      error: err => {console.log(err)}
+      error: err => {}
     });
 
     this.materialservice.getMaterials().subscribe({
       next: data => {
         this.materials = data;
       },
-      error: err => {console.log(err)}
+      error: err => {}
     });
-  }
-
-  setUpdate(pump: Pump){
-    this.isShowPump = false;
-    this.id = pump.id;
-    this.pump = pump;
-  }
-
-  setFlag(){
-    this.isShowPump = true;
-  }
-
-
-  setEdit(pump: Pump){
-    this.pumpservice.updatePump(pump).subscribe({
-      next: data => {
-      },
-      error: err => {console.log(err)}
-    });
-    document.getElementById('cancel')?.click();
   }
 
   setDelete(pump: Pump){
@@ -77,30 +53,7 @@ export class PumpComponent implements OnInit{
       this.pumps.splice(index, 1);
     }
     this.pumpservice.deletePump(pump.id).subscribe({
-      error: err => {console.log(err)}
+      error: err => {}
     });
   }
-
-  handleFileInput(event:any){
-    this.selectedFile = event.target.files[0];
-    if (!this.isImageFileType(event.target.files[0].type))
-    {
-      alert('Only .jpg files are allowed');
-      this.selectedFile = null;
-      this.selectedFileBase64 = '';
-    }
-    else
-    {
-      const reader = new FileReader();
-      reader.onload = (event: any) => {
-        const base64String = event.target.result;
-        this.selectedFileBase64 = base64String;
-        };
-        reader.readAsDataURL(event.target.files[0]);
-    }
-  };
-
-  isImageFileType(type: string): boolean {
-    return type === 'image/jpeg' || type === 'image/jpg';
-  };
 }

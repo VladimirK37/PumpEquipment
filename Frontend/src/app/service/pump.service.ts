@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Pump, PumpRequest} from '../Dto/pump';
+import { Pump, PumpRequest } from '../Dto/pump';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PumpService {
-  private apiUrl = 'https://localhost:****/pump';
+  private apiUrl = 'https://localhost:7220/pump';
 
   constructor(private http: HttpClient) { }
 
@@ -15,7 +15,7 @@ export class PumpService {
     return this.http.get<Pump[]>(this.apiUrl);
   }
 
-  getPump(id: number): Observable<Pump> {
+  getPump(id: string): Observable<Pump> {
     return this.http.get<Pump>(`${this.apiUrl}/${id}`);
   }
 

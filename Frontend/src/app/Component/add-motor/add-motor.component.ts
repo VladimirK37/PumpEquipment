@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { Motor, MotorRequest } from 'src/app/Dto/motor';
 import { MotorService } from 'src/app/service/motor.service';
 
@@ -18,14 +19,14 @@ export class AddMotorComponent {
     price: 0
   };
 
-  constructor( private motorservice: MotorService){
+  constructor( private motorservice: MotorService,private router: Router){
 
   }
 
   onFormSubmit(){
     this.motorservice.addMotor(this.motor).subscribe({
       next: (response) => {
-
+        this.router.navigate(['admin/motors']);
       },
       error: (err) => {}
     })

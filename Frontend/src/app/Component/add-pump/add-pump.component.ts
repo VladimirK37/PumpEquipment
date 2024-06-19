@@ -5,6 +5,7 @@ import { PumpRequest } from 'src/app/Dto/pump';
 import { MotorService } from 'src/app/service/motor.service';
 import { PumpService } from 'src/app/service/pump.service';
 import { Material } from 'src/app/Dto/material';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -31,7 +32,8 @@ export class AddPumpComponent implements OnInit{
   motors: Motor[] = [ ];
   materials: Material[] = [ ];
 
-  constructor(private pumpservice: PumpService, private motorservice: MotorService, private materialservice: MaterialService){
+  constructor(private pumpservice: PumpService, private motorservice: MotorService,
+    private materialservice: MaterialService, private router: Router){
 
   }
 
@@ -56,7 +58,7 @@ export class AddPumpComponent implements OnInit{
     this.pump.picture = this.selectedFileBase64;
     this.pumpservice.addPump(this.pump).subscribe({
       next: (response) => {
-
+        this.router.navigate(['admin/pumps']);
       },
       error: (err) => {}
     })

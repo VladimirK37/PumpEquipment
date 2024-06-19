@@ -1,5 +1,5 @@
 export interface Motor {
-  guid: string;
+  id: string;
   current: number;
   description: string;
   motor: string;

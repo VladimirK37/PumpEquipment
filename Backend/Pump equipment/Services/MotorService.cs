@@ -30,7 +30,7 @@ namespace Pump_equipment.Services
         {
             var query = _motorsRepositories.GetAllMotors().Select(x => new MotorDto
             {
-                Guid = x.Id,
+                Id = x.Id,
                 Name = x.Name,
                 Description = x.Description,
                 Current = x.Current,
@@ -38,7 +38,7 @@ namespace Pump_equipment.Services
                 Power = x.Power,
                 NominalSpeed = x.NominalSpeed,
                 Price = x.Price,
-            });
+            }).OrderBy(x => x.Id);
             var result = await query.ToListAsync();
             return result;
         }
@@ -48,11 +48,10 @@ namespace Pump_equipment.Services
         /// Создание мотора
         /// </summary>
         /// <param name="motorDto"></param>
-        public async Task<MotorDto> CreateMotorAsync(MotorDto motorDto)
+        public async Task CreateMotorAsync(MotorDto motorDto)
         {
             var motorEntity = new MotorEntity
             {
-                Id = Guid.NewGuid(),
                 Name = motorDto.Name,
                 Power = motorDto.Power,
                 Current = motorDto.Current,
@@ -63,8 +62,6 @@ namespace Pump_equipment.Services
             };
             _motorsRepositories.CreateMotor(motorEntity);
             await _db.SaveChangesAsync();
-
-            return motorDto;
         }
 
         /// <summary>
@@ -76,7 +73,7 @@ namespace Pump_equipment.Services
         {
             var motorEntity = new MotorEntity
             {
-                Id = motorDto.Guid,
+                Id = motorDto.Id,
                 Name = motorDto.Name,
                 Power = motorDto.Power,
                 Current = motorDto.Current,
@@ -98,11 +95,32 @@ namespace Pump_equipment.Services
         /// <exception cref="DataException"></exception>
         public async Task DeleteMotorAsync(Guid id)
         {
-            var motor = _db.Motors.Find(id) ??
-                throw new DataException($"Отсутвует мотор по этому идентификатору {id}");
+            var motor = await _db.Motors.FindAsync(id) ??
+                throw new DataException($"Отсутвует мотор по этому идентификатору {id} при удалении");
 
             _motorsRepositories.DeleteMotor(motor);
             await _db.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// Получение мотора по идентификатору
+        /// </summary>
+        public async Task<MotorDto> GetMotorAsync(Guid id)
+        {
+            var motorEntity = await _db.Motors.FindAsync(id) ??
+                 throw new DataException($"Отсутвует мотор по этому идентификатору {id} при получении");
+            var motorDto = new MotorDto
+            {
+                Id = motorEntity.Id,
+                Current = motorEntity.Current,
+                Description = motorEntity.Description,
+                NominalSpeed = motorEntity.NominalSpeed,
+                Motor = motorEntity.Motor,
+                Price = motorEntity.Price,
+                Name = motorEntity.Name,
+                Power = motorEntity.Power
+            };
+            return motorDto;
         }
     }
 }

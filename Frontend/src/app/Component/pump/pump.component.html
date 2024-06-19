@@ -3,8 +3,6 @@
   <a [routerLink] = "['/admin/pumps/add']" class="btn btn-primary">Add Pump</a>
     <div class="d-flex mt-3">
       <div *ngFor="let pump of pumps" class="pump-container">
-        @if (isShowPump === true)
-        {
           <h1>{{ pump.name }}</h1>
             <p>Max Pressure: {{ pump.maxPressure }} bar</p>
             <p>Liquid Temperature: {{ pump.temperature }} °C</p>
@@ -38,92 +36,8 @@
                 <p>Description: {{ pump.materialHull.description }}</p>
               </ng-container>
             <img class="pump-container-image" id="imgElem" [src]="pump.picture"/>
-            <button type="button" class="btn btn-success" (click)="setUpdate(pump)">Edit</button>
+            <a [routerLink] = "['/pumps','edit', pump.id]" class="btn btn-primary">Edit Pump</a>
             <button type="button"  class="btn btn-danger" (click)="setDelete(pump)">Delete</button>
-        }
-        @else
-        {
-          @if (pump.id === id)
-          {
-            <div class="mt-3">
-              <label class="form-label"> Pump Name</label>
-              <input type="text" id="name" class="form-control"
-              name="name" [(ngModel)] = "pump.name"  #name="ngModel">
-            </div>
-
-            <div class="mt-3">
-              <label class="form-label"> Pump MaxPressure</label>
-              <input type="number" id="maxPressure" class="form-control"
-              name="maxPressure" [(ngModel)] = "pump.maxPressure">
-            </div>
-            <div class="mt-3">
-              <label class="form-label"> Temperature</label>
-              <input type="number" id="temperature" class="form-control"
-              name="temperature" [(ngModel)] = "pump.temperature" >
-            </div>
-            <div class="mt-3">
-              <label class="form-label"> Pump Weight</label>
-              <input type="number" id="Weight" class="form-control"
-              name="weight" [(ngModel)] = "pump.weight" >
-            </div>
-            <div class="mt-3">
-              <label class="form-label"> Pump Description</label>
-              <input type="text" id="description" class="form-control"
-              name="description" [(ngModel)] = "pump.description" >
-            </div>
-            <div class="mt-3">
-              <label class="form-label"> Pump Price</label>
-              <input type="number" id="price" class="form-control"
-              name="price" [(ngModel)] = "pump.price">
-            </div>
-            <div class="mt-3">
-                  <h2>Motor</h2>
-                  <mat-form-field class="select-boxes" color="primary" appearance="outline">
-                  <mat-label>{{pump.motorEntity.name}}</mat-label>
-                  <mat-select id="pump.motorEntity.guid" [(ngModel)]="pump.motorEntity.guid" class="form-control"
-                    name="pump.motorEntity.guid" >
-                      <mat-option *ngFor="let motor of motors" [value]="motor.guid">
-                        {{ motor.name }}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-            </div>
-            <div class="mt-3">
-              <h2>Materials</h2>
-                <h3>Material Hull</h3>
-                <mat-form-field class="select-boxes" color="primary" appearance="outline">
-                  <mat-label *ngIf="pump.materialHull">{{pump.materialHull.name}}</mat-label>
-                  <mat-select id="materialHullId" [(ngModel)]="pump.materialHull" class="form-control"
-                    name="materialHullId">
-                      <mat-option *ngFor="let material of materials" [value]="material.guid">
-                        {{ material.name }}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-            </div>
-            <div class="mt-3">
-              <h3>Impeller Material</h3>
-              <mat-form-field class="select-boxes" color="primary" appearance="outline">
-              <mat-label *ngIf="pump.impellerMaterial">{{pump.impellerMaterial.name}}</mat-label>
-              <mat-select id="impellerMaterialId" [(ngModel)]="pump.impellerMaterial" class="form-control"
-                name="impellerMaterialId">
-                  <mat-option  *ngFor="let material of materials" [value]="material.guid">
-                    {{ material.name }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-            <div class="mt-3">
-              <label class="form-label"> Pump Picture</label>
-              <input type="file" id="picture" class="form-control"
-              name="picture" [(ngModel)] = "pump.picture"
-              (change)="handleFileInput($event)">
-            </div>
-            <button type="button" class="btn btn-success" (click)="setEdit(pump)">Save</button>
-            <button id="cancel" type="button" class="btn btn-primary" (click)="setFlag()">Cancel</button>
-          }
-        }
       </div>
-
     </div>
 </div>

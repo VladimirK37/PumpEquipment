@@ -42,7 +42,7 @@ namespace Pump_equipment.Services
                 MotorEntity = x.Motor,
                 MaterialHull = x.MaterialHull,
                 ImpellerMaterial = x.ImpellerMaterial
-            });
+            }).OrderBy(x => x.Id);
             var result = await query.ToListAsync();
 
             return result;
@@ -87,7 +87,7 @@ namespace Pump_equipment.Services
         /// <summary>
         /// Обновление значений насоса
         /// </summary>
-        public async Task<PumpDto> UpdatePumpAsync(PumpDto pumpDto)
+        public async Task<PumpResponseDto> UpdatePumpAsync(PumpResponseDto pumpDto)
         {
             var motorEntity = _motorRepositories.GetMotorByGuid(pumpDto.MotorEntity.Id) ??
                 throw new DataException("Отсутвует мотор");
@@ -127,10 +127,60 @@ namespace Pump_equipment.Services
         public async Task DeletePumpAsync(Guid id)
         {
             var pumpEntity = _db.Pumps.Find(id) ??
-                throw new DataException($"Отсутвует насос по этому идентификатору {id}");
+                throw new DataException($"Отсутвует насос по этому идентификатору {id} при удалении");
 
             _pumpRepositories.DeletePump(pumpEntity);
             await _db.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// Получение насоса по идентификатору
+        public async Task<PumpResponseDto> GetPumpAsync(Guid id)
+        {
+            var pumpEntity = _pumpRepositories.GetPump(id) ??
+                throw new DataException($"Отсутвует насос по этому идентификатору {id} при получении");
+            MaterialDto? impellerMaterial = pumpEntity.ImpellerMaterial != null ?
+                new MaterialDto()
+                {
+                    Id = pumpEntity.ImpellerMaterial.Id,
+                    Name = pumpEntity.ImpellerMaterial.Name,
+                    Description = pumpEntity.ImpellerMaterial.Description
+                } : null;
+
+
+            MaterialDto? materialHull = pumpEntity.MaterialHull != null ?
+                new MaterialDto()
+                {
+                    Id = pumpEntity.MaterialHull.Id,
+                    Name = pumpEntity.MaterialHull.Name,
+                    Description = pumpEntity.MaterialHull.Description
+                } : null;
+
+            var pumpDto = new PumpResponseDto
+            {
+                Id = pumpEntity.Id,
+                Name = pumpEntity.Name,
+                MaxPressure = pumpEntity.MaxPressure,
+                Temperature = pumpEntity.Temperature,
+                Weight = pumpEntity.Weight,
+                Description = pumpEntity.Description,
+                Price = pumpEntity.Price,
+                Picture = pumpEntity.Picture,
+                ImpellerMaterial = impellerMaterial,
+                MaterialHull = materialHull,
+                MotorEntity = new MotorDto
+                {
+                    Id = pumpEntity.Motor.Id,
+                    Name = pumpEntity.Motor.Name,
+                    Description = pumpEntity.Motor.Description,
+                    NominalSpeed = pumpEntity.Motor.NominalSpeed,
+                    Current = pumpEntity.Motor.Current,
+                    Motor = pumpEntity.Motor.Motor,
+                    Power = pumpEntity.Motor.Power,
+                    Price = pumpEntity.Motor.Price
+                },
+            };
+            return pumpDto;
         }
     }
 }

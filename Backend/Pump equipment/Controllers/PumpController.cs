@@ -18,8 +18,6 @@ namespace Pump_equipment.Controllers
         /// <summary>
         /// Получение всех насосов
         /// </summary>
-        /// <returns></returns>
-
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PumpDto>>> GetAllNasoesAsync()
         {
@@ -31,11 +29,10 @@ namespace Pump_equipment.Controllers
         /// Создание насоса
         /// </summary>
         /// <param name="pump"></param>
-        /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult> CreatePump(PumpRequestDto pump)
+        public async Task<ActionResult> CreatePump(PumpRequestDto pumpDto)
         {
-            await _pumpService.CreatePumpAsync(pump);
+            await _pumpService.CreatePumpAsync(pumpDto);
             return Ok();
         }
 
@@ -43,9 +40,8 @@ namespace Pump_equipment.Controllers
         /// Обновление насоса
         /// </summary>
         /// <param name="pump"></param>
-        /// <returns></returns>
         [HttpPut]
-        public async Task<PumpDto> UpdatePump(PumpDto pump)
+        public async Task<PumpResponseDto> UpdatePump(PumpResponseDto pump)
         {
             await _pumpService.UpdatePumpAsync(pump);
             return pump;
@@ -55,12 +51,22 @@ namespace Pump_equipment.Controllers
         /// Удаление насоса
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePump(Guid id)
         {
             await _pumpService.DeletePumpAsync(id);
             return NoContent();
+        }
+
+        /// <summary>
+        /// Получение насоса по идентификатору
+        /// </summary>
+        /// <param name="id"></param>
+        [HttpGet("{id}")]
+        public async Task<ActionResult<PumpResponseDto>> GetPumpAsync(Guid id)
+        {
+            var dto = await _pumpService.GetPumpAsync(id);
+            return Ok(dto);
         }
     }
 }

@@ -7,12 +7,16 @@ import { Motor, MotorRequest } from '../Dto/motor';
   providedIn: 'root'
 })
 export class MotorService {
-  private apiUrl = 'https://localhost:****/motor';
+  private apiUrl = 'https://localhost:7220/motor';
 
   constructor(private http: HttpClient) { }
 
   getMotors() {
     return this.http.get<Motor[]>(this.apiUrl);
+  }
+
+  getMotor(id: string): Observable<Motor> {
+    return this.http.get<Motor>(`${this.apiUrl}/${id}`);
   }
 
   addMotor(motor: MotorRequest): Observable<void> {

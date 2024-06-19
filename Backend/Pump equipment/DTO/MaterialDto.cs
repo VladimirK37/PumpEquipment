@@ -8,7 +8,7 @@ public class MaterialDto
     /// <summary>
     /// Идентификатор материала
     /// </summary>
-    public Guid Guid { get; set; } = default!;
+    public Guid Id { get; set; } = default!;
 
     /// <summary>
     /// Наименование материала

@@ -3,34 +3,10 @@
   <a [routerLink] = "['/admin/materials/add']" class="btn btn-primary">Add material</a>
   <div class="d-flex mt-3">
     <div *ngFor="let material of materials" class="material-container">
-      @if (isShowMaterial === true)
-      {
       <h1>{{ material.name }}</h1>
       <p>Description: {{ material.description }}</p>
-      <button type="button" class="btn btn-success" (click)="setUpdate(material)">Edit</button>
+      <a [routerLink] = "['/materials','edit', material.id]" class="btn btn-primary">Edit Motor</a>
       <button type="button"  class="btn btn-danger" (click)="setDelete(material)">Delete</button>
-      }
-      @else
-      {
-        @if (material.guid === materialEdit.guid)
-        {
-          <div class="mt-2">
-            <div class="mt-3">
-              <label class="form-label"> Material Name</label>
-              <input type="text" id="name" class="form-control"
-              name="name" [(ngModel)] = "material.name"
-               #name="ngModel">
-            </div>
-            <div class="mt-3">
-              <label class="form-label"> Material Description</label>
-              <input type="text" id="description" class="form-control"
-              name="description" [(ngModel)] = "material.description">
-            </div>
-          </div>
-          <button type="button" class="btn btn-success" (click)="setEdit(material)">Save</button>
-          <button type="button" class="btn btn-primary" (click)="setFlag()">Cancel</button>
-        }
-      }
     </div>
   </div>
 

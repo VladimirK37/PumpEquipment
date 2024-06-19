@@ -17,7 +17,7 @@ namespace Pump_equipment.Data.Repositories
         /// <returns></returns>
         public IQueryable<PumpEntity> GetAllPumps()
         {
-            return DbContext.Pumps.AsNoTracking().Include(p => p.Motor)
+            return DbContext.Pumps.Include(p => p.Motor)
                 .Include(s => s.MaterialHull)
                 .Include(m => m.ImpellerMaterial);
         }
@@ -48,6 +48,18 @@ namespace Pump_equipment.Data.Repositories
         public void DeletePump(PumpEntity pump)
         {
             DbContext.Pumps.Remove(pump);
+        }
+
+        /// <summary>
+        /// Получение всех насосов
+        /// </summary>
+        /// <returns></returns>
+        public PumpEntity? GetPump(Guid id)
+        {
+            return DbContext.Pumps.Include(p => p.Motor)
+                .Include(s => s.MaterialHull)
+                .Include(m => m.ImpellerMaterial)
+                .FirstOrDefault(x => x.Id == id);
         }
     }
 }
