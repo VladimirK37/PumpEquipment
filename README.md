@@ -7,7 +7,7 @@
 CRUD (Create, Read, Update, Delete) операции для каждой сущности
 API-endpoints:
 Pump:
-POST /pump: Создать новый насос
+POST /pump: Создать новый насос  
 GET /pump: Получить все насосы
 PUT /pump/{id}: Обновить конкретный насос
 DELETE /pump/{id}: Удалить конкретный насос
